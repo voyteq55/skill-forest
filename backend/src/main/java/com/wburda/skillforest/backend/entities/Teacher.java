@@ -16,6 +16,6 @@ public class Teacher {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 }
