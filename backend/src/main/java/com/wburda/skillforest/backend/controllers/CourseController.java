@@ -1,5 +1,6 @@
 package com.wburda.skillforest.backend.controllers;
 
+import com.wburda.skillforest.backend.dto.CourseDTO;
 import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
 import com.wburda.skillforest.backend.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,10 @@ public class CourseController {
     public ResponseEntity<List<StudentCourseEnrollmentDTO>> getCourseEnrollmentsForCurrentStudent() {
         return ResponseEntity.ok(courseService.getAllStudentCourseEnrollmentForCurrentStudent());
     }
+
+    @GetMapping("/my-courses")
+    public ResponseEntity<List<CourseDTO>> getCoursesForCurrentTeacher() {
+        return ResponseEntity.ok(courseService.getAllCoursesForCurrentTeacher());
+    }
+
 }
