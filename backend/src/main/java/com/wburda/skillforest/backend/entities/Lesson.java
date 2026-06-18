@@ -16,11 +16,11 @@ public class Lesson {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "previous_lesson_id")
     private Lesson previous_lesson;
 
