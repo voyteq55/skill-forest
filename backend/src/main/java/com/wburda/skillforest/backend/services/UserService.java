@@ -2,6 +2,7 @@ package com.wburda.skillforest.backend.services;
 
 import com.wburda.skillforest.backend.dto.StudentDTO;
 import com.wburda.skillforest.backend.dto.TeacherDTO;
+import com.wburda.skillforest.backend.entities.Student;
 import com.wburda.skillforest.backend.mappers.UserMapper;
 import com.wburda.skillforest.backend.repositories.StudentRepository;
 import com.wburda.skillforest.backend.repositories.TeacherRepository;
@@ -33,5 +34,10 @@ public class UserService {
         return teacherRepository.findAll().stream()
                 .map(userMapper::toTeacherDTO)
                 .toList();
+    }
+
+    public Student getCurrentlyLoggedStudent() {
+        // TODO: add auth instead of this temporary placeholder
+        return studentRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("No users"));
     }
 }
