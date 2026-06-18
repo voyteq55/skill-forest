@@ -31,4 +31,7 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseEnrollment> courseEnrollments = new LinkedHashSet<>();
+
 }
