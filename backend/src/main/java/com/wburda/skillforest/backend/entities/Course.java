@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -25,4 +27,8 @@ public class Course {
 
     @Column(name = "shareable_url", unique = true)
     private String shareableUrl;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Lesson> lessons = new LinkedHashSet<>();
+
 }
