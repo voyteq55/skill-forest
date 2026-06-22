@@ -40,32 +40,32 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CourseDTO> updateCourse(@PathVariable UUID id, @RequestBody CourseRequestDTO courseRequestDTO) {
-        CourseDTO updatedCourse = courseService.updateCourse(id, courseRequestDTO);
+    @PutMapping("/{courseId}")
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable UUID courseId, @RequestBody CourseRequestDTO courseRequestDTO) {
+        CourseDTO updatedCourse = courseService.updateCourse(courseId, courseRequestDTO);
         return ResponseEntity.ok(updatedCourse);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable UUID id) {
-        courseService.deleteCourse(id);
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable UUID courseId) {
+        courseService.deleteCourse(courseId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/share")
-    public ResponseEntity<Map<String, String>> getShareableLink(@PathVariable UUID id) {
-        String shareableLink = courseService.getShareableLink(id);
+    @GetMapping("/{courseId}/share")
+    public ResponseEntity<Map<String, String>> getShareableLink(@PathVariable UUID courseId) {
+        String shareableLink = courseService.getShareableLink(courseId);
         return ResponseEntity.ok(Map.of("shareableLink", shareableLink));
     }
 
-    @GetMapping("/{id}/lessons")
-    public ResponseEntity<List<LessonDTO>> getCourseLessons(@PathVariable UUID id) {
-        return ResponseEntity.ok(lessonService.getAllCourseLessons(id));
+    @GetMapping("/{courseId}/lessons")
+    public ResponseEntity<List<LessonDTO>> getCourseLessons(@PathVariable UUID courseId) {
+        return ResponseEntity.ok(lessonService.getAllCourseLessons(courseId));
     }
 
-    @PostMapping("/{id}/lessons")
-    public ResponseEntity<LessonDTO> createLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID id) {
-        LessonDTO newLesson = lessonService.createNewLesson(lessonRequestDTO, id);
+    @PostMapping("/{courseId}/lessons")
+    public ResponseEntity<LessonDTO> createLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID courseId) {
+        LessonDTO newLesson = lessonService.createNewLesson(lessonRequestDTO, courseId);
         return ResponseEntity.status(HttpStatus.CREATED).body(newLesson);
     }
 
