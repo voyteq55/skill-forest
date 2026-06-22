@@ -24,11 +24,6 @@ public class CourseController {
         this.lessonService = lessonService;
     }
 
-    @GetMapping("/my-enrollments")
-    public ResponseEntity<List<StudentCourseEnrollmentDTO>> getCourseEnrollmentsForCurrentStudent() {
-        return ResponseEntity.ok(courseService.getAllStudentCourseEnrollmentForCurrentStudent());
-    }
-
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getCoursesForCurrentTeacher() {
         return ResponseEntity.ok(courseService.getAllCoursesForCurrentTeacher());
