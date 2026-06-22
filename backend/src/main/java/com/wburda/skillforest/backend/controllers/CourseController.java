@@ -1,13 +1,13 @@
 package com.wburda.skillforest.backend.controllers;
 
 import com.wburda.skillforest.backend.dto.CourseDTO;
+import com.wburda.skillforest.backend.dto.CourseRequestDTO;
 import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
 import com.wburda.skillforest.backend.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +29,12 @@ public class CourseController {
     @GetMapping("/my-courses")
     public ResponseEntity<List<CourseDTO>> getCoursesForCurrentTeacher() {
         return ResponseEntity.ok(courseService.getAllCoursesForCurrentTeacher());
+    }
+
+    @PostMapping
+    public ResponseEntity<CourseDTO> createNewCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
+        CourseDTO createdCourse = courseService.createNewCourse(courseRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 
 }

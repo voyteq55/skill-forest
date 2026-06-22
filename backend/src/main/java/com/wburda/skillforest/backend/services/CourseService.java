@@ -1,6 +1,7 @@
 package com.wburda.skillforest.backend.services;
 
 import com.wburda.skillforest.backend.dto.CourseDTO;
+import com.wburda.skillforest.backend.dto.CourseRequestDTO;
 import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
 import com.wburda.skillforest.backend.entities.Course;
 import com.wburda.skillforest.backend.entities.CourseEnrollment;
@@ -39,6 +40,14 @@ public class CourseService {
         Teacher currentTeacher = userService.getCurrentlyLoggedTeacher();
         List<Course> courses = courseRepository.findByCreatedBy(currentTeacher);
         return courses.stream().map(courseMapper::toCourseDTO).toList();
+    }
+
+    public CourseDTO createNewCourse(CourseRequestDTO courseRequestDTO) {
+        Course newCourse = new Course();
+        newCourse.setName(courseRequestDTO.getName());
+        newCourse.setCreatedBy(userService.getCurrentlyLoggedTeacher());
+        courseRepository.save(newCourse);
+        return courseMapper.toCourseDTO(newCourse);
     }
 }
 
