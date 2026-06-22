@@ -29,7 +29,7 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getAllStudentCourseEnrollmentForCurrentStudent());
     }
 
-    @GetMapping("/my-courses")
+    @GetMapping
     public ResponseEntity<List<CourseDTO>> getCoursesForCurrentTeacher() {
         return ResponseEntity.ok(courseService.getAllCoursesForCurrentTeacher());
     }
