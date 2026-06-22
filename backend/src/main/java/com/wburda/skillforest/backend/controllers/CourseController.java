@@ -69,10 +69,16 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newLesson);
     }
 
-    @PutMapping("/{course_id}/lessons/{lesson_id}")
-    public ResponseEntity<LessonDTO> updateLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID course_id, @PathVariable UUID lesson_id) {
-        LessonDTO updatedLesson = lessonService.updateLesson(lessonRequestDTO, course_id, lesson_id);
+    @PutMapping("/{courseId}/lessons/{lessonId}")
+    public ResponseEntity<LessonDTO> updateLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID courseId, @PathVariable UUID lessonId) {
+        LessonDTO updatedLesson = lessonService.updateLesson(lessonRequestDTO, courseId, lessonId);
         return ResponseEntity.ok(updatedLesson);
+    }
+
+    @DeleteMapping("/{courseId}/lessons/{lessonId}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable UUID courseId, @PathVariable UUID lessonId) {
+        lessonService.deleteLesson(lessonId);
+        return ResponseEntity.noContent().build();
     }
 
 }

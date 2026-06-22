@@ -77,6 +77,12 @@ public class LessonService {
         return lessonMapper.toLessonDTO(lesson);
     }
 
+    public void deleteLesson(UUID lessonId) {
+        Lesson lesson = findLesson(lessonId);
+        courseService.validateCourseOwnership(lesson.getCourse());
+        lessonRepository.delete(lesson);
+    }
+
     Lesson findLesson(UUID id) {
         return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found"));
     }
