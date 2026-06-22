@@ -1,9 +1,8 @@
 package com.wburda.skillforest.backend.controllers;
 
-import com.wburda.skillforest.backend.dto.CourseDTO;
-import com.wburda.skillforest.backend.dto.CourseRequestDTO;
-import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
+import com.wburda.skillforest.backend.dto.*;
 import com.wburda.skillforest.backend.services.CourseService;
+import com.wburda.skillforest.backend.services.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,12 @@ import java.util.UUID;
 @RequestMapping("/courses")
 public class CourseController {
     private final CourseService courseService;
+    private final LessonService lessonService;
 
     @Autowired
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, LessonService lessonService) {
         this.courseService = courseService;
+        this.lessonService = lessonService;
     }
 
     @GetMapping("/my-enrollments")
@@ -55,6 +56,12 @@ public class CourseController {
     public ResponseEntity<Map<String, String>> getShareableLink(@PathVariable UUID id) {
         String shareableLink = courseService.getShareableLink(id);
         return ResponseEntity.ok(Map.of("shareableLink", shareableLink));
+    }
+
+    @PostMapping("/{id}/lessons")
+    public ResponseEntity<LessonDTO> createLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID id) {
+        LessonDTO newLesson = lessonService.createNewLesson(lessonRequestDTO, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newLesson);
     }
 
 }

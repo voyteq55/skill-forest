@@ -24,11 +24,10 @@ public class LessonService {
         this.courseService = courseService;
     }
 
-
-    public LessonDTO createNewLesson(LessonRequestDTO lessonRequestDTO) {
+    public LessonDTO createNewLesson(LessonRequestDTO lessonRequestDTO, UUID courseId) {
         Lesson lesson = new Lesson();
 
-        Course course = courseService.findCourse(lessonRequestDTO.getCourseId());
+        Course course = courseService.findCourse(courseId);
         courseService.validateCourseOwnership(course);
         lesson.setCourse(course);
 
