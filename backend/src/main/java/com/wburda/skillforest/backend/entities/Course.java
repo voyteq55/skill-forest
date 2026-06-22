@@ -21,12 +21,12 @@ public class Course {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "created_by_user_id", nullable = false)
     private Teacher createdBy;
 
-    @Column(name = "shareable_url", unique = true)
-    private String shareableUrl;
+    @Column(name = "is_shareable", nullable = false)
+    private boolean isShareable;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lesson> lessons = new LinkedHashSet<>();

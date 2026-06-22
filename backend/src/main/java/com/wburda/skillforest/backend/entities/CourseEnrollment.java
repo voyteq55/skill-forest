@@ -19,11 +19,11 @@ public class CourseEnrollment {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 

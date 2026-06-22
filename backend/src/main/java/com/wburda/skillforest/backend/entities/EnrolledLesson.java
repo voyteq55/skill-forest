@@ -17,11 +17,11 @@ public class EnrolledLesson {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "course_enrollment_id", nullable = false)
     private CourseEnrollment courseEnrollment;
 
