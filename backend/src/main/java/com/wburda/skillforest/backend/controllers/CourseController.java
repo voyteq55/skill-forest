@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/courses")
@@ -35,6 +36,12 @@ public class CourseController {
     public ResponseEntity<CourseDTO> createNewCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
         CourseDTO createdCourse = courseService.createNewCourse(courseRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable UUID id, @RequestBody CourseRequestDTO courseRequestDTO) {
+        CourseDTO updatedCourse = courseService.updateCourse(id, courseRequestDTO);
+        return ResponseEntity.ok(updatedCourse);
     }
 
 }

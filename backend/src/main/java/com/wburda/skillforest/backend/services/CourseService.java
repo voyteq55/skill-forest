@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CourseService {
@@ -49,5 +50,21 @@ public class CourseService {
         courseRepository.save(newCourse);
         return courseMapper.toCourseDTO(newCourse);
     }
+
+    public CourseDTO updateCourse(UUID id, CourseRequestDTO courseRequestDTO) {
+        Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        validateCourseOwnership(course);
+        course.setName(courseRequestDTO.getName());
+        courseRepository.save(course);
+        return courseMapper.toCourseDTO(course);
+    }
+
+    private void validateCourseOwnership(Course course) {
+        Teacher currentTeacher = userService.getCurrentlyLoggedTeacher();
+        if (!course.getCreatedBy().equals(currentTeacher)) {
+            throw new RuntimeException("No permissions for course");
+        }
+    }
+
 }
 
