@@ -52,11 +52,21 @@ public class CourseService {
     }
 
     public CourseDTO updateCourse(UUID id, CourseRequestDTO courseRequestDTO) {
-        Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = findCourse(id);
         validateCourseOwnership(course);
         course.setName(courseRequestDTO.getName());
         courseRepository.save(course);
         return courseMapper.toCourseDTO(course);
+    }
+
+    public void deleteCourse(UUID id) {
+        Course course = findCourse(id);
+        validateCourseOwnership(course);
+        courseRepository.delete(course);
+    }
+
+    private Course findCourse(UUID id) {
+        return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
     }
 
     private void validateCourseOwnership(Course course) {
