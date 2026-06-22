@@ -83,11 +83,11 @@ public class CourseService {
         return shareableLink;
     }
 
-    private Course findCourse(UUID id) {
+    Course findCourse(UUID id) {
         return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
     }
 
-    private void validateCourseOwnership(Course course) {
+    void validateCourseOwnership(Course course) {
         Teacher currentTeacher = userService.getCurrentlyLoggedTeacher();
         if (!course.getCreatedBy().equals(currentTeacher)) {
             throw new RuntimeException("No permissions for course");
