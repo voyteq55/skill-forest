@@ -9,6 +9,7 @@ import com.wburda.skillforest.backend.repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +23,12 @@ public class LessonService {
         this.lessonRepository = lessonRepository;
         this.lessonMapper = lessonMapper;
         this.courseService = courseService;
+    }
+
+    public List<LessonDTO> getAllCourseLessons(UUID id) {
+        Course course = courseService.findCourse(id);
+        courseService.validateCourseOwnership(course);
+        return course.getLessons().stream().map(lessonMapper::toLessonDTO).toList();
     }
 
     public LessonDTO createNewLesson(LessonRequestDTO lessonRequestDTO, UUID courseId) {

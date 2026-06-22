@@ -58,6 +58,11 @@ public class CourseController {
         return ResponseEntity.ok(Map.of("shareableLink", shareableLink));
     }
 
+    @GetMapping("/{id}/lessons")
+    public ResponseEntity<List<LessonDTO>> getCourseLessons(@PathVariable UUID id) {
+        return ResponseEntity.ok(lessonService.getAllCourseLessons(id));
+    }
+
     @PostMapping("/{id}/lessons")
     public ResponseEntity<LessonDTO> createLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID id) {
         LessonDTO newLesson = lessonService.createNewLesson(lessonRequestDTO, id);
