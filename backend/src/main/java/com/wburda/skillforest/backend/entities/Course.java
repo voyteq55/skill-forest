@@ -25,8 +25,8 @@ public class Course {
     @JoinColumn(name = "created_by_user_id", nullable = false)
     private Teacher createdBy;
 
-    @Column(name = "shareable_url", unique = true)
-    private String shareableUrl;
+    @Column(name = "is_shareable", nullable = false)
+    private boolean isShareable;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lesson> lessons = new LinkedHashSet<>();

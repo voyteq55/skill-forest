@@ -72,11 +72,10 @@ public class CourseService {
     public String getShareableLink(UUID id) {
         Course course = findCourse(id);
         validateCourseOwnership(course);
-        String shareableLink = course.getShareableUrl();
+        String shareableLink = frontendUrl + "/join/" + id;
 
-        if (shareableLink == null) {
-            shareableLink = frontendUrl + "/join/" + id;
-            course.setShareableUrl(shareableLink);
+        if (!course.isShareable()) {
+            course.setShareable(true);
             courseRepository.save(course);
         }
 
