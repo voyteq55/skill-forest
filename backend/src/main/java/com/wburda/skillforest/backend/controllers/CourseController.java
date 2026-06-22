@@ -69,4 +69,10 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newLesson);
     }
 
+    @PutMapping("/{course_id}/lessons/{lesson_id}")
+    public ResponseEntity<LessonDTO> updateLesson(LessonRequestDTO lessonRequestDTO, @PathVariable UUID course_id, @PathVariable UUID lesson_id) {
+        LessonDTO updatedLesson = lessonService.updateLesson(lessonRequestDTO, course_id, lesson_id);
+        return ResponseEntity.ok(updatedLesson);
+    }
+
 }

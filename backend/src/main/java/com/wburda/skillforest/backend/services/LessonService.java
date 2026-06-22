@@ -43,7 +43,29 @@ public class LessonService {
             lesson.setPrevious_lesson(null);
         } else {
             Lesson previousLesson = findLesson(previousLessonId);
-            validateLessonsFromSameCourse(lesson, previousLesson);
+            validateLessonsWithSameCourseId(courseId, previousLesson.getCourse().getId());
+            lesson.setPrevious_lesson(previousLesson);
+        }
+
+        lesson.setTitle(lessonRequestDTO.getTitle());
+        lesson.setContent(lessonRequestDTO.getContent());
+
+        lessonRepository.save(lesson);
+
+        return lessonMapper.toLessonDTO(lesson);
+    }
+
+    public LessonDTO updateLesson(LessonRequestDTO lessonRequestDTO, UUID courseId, UUID lessonId) {
+        Lesson lesson = findLesson(lessonId);
+        validateLessonsWithSameCourseId(lesson.getCourse().getId(), courseId);
+        courseService.validateCourseOwnership(lesson.getCourse());
+
+        UUID previousLessonId = lessonRequestDTO.getPreviousLessonId();
+        if (previousLessonId == null) {
+            lesson.setPrevious_lesson(null);
+        } else {
+            Lesson previousLesson = findLesson(previousLessonId);
+            validateLessonsWithSameCourseId(courseId, previousLesson.getCourse().getId());
             lesson.setPrevious_lesson(previousLesson);
         }
 
@@ -59,9 +81,9 @@ public class LessonService {
         return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found"));
     }
 
-    void validateLessonsFromSameCourse(Lesson lesson1, Lesson lesson2){
-        if (!lesson1.getCourse().equals(lesson2.getCourse())) {
-            throw new RuntimeException("Invalid previous lesson (from a different course)");
+    void validateLessonsWithSameCourseId(UUID id1, UUID id2){
+        if (!id1.equals(id2)) {
+            throw new RuntimeException("Invalid course");
         }
     }
 }
