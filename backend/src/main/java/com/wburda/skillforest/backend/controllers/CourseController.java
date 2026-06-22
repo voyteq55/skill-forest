@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -48,6 +49,12 @@ public class CourseController {
     public ResponseEntity<Void> deleteCourse(@PathVariable UUID id) {
         courseService.deleteCourse(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/share")
+    public ResponseEntity<Map<String, String>> getShareableLink(@PathVariable UUID id) {
+        String shareableLink = courseService.getShareableLink(id);
+        return ResponseEntity.ok(Map.of("shareableLink", shareableLink));
     }
 
 }

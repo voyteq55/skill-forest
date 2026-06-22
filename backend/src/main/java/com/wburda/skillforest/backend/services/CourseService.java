@@ -11,6 +11,7 @@ import com.wburda.skillforest.backend.mappers.CourseMapper;
 import com.wburda.skillforest.backend.repositories.CourseEnrollmentRepository;
 import com.wburda.skillforest.backend.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class CourseService {
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final CourseRepository courseRepository;
     private final UserService userService;
+
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
 
     @Autowired
     public CourseService(CourseMapper courseMapper, CourseEnrollmentRepository courseEnrollmentRepository, UserService userService, CourseRepository courseRepository) {
@@ -63,6 +67,20 @@ public class CourseService {
         Course course = findCourse(id);
         validateCourseOwnership(course);
         courseRepository.delete(course);
+    }
+
+    public String getShareableLink(UUID id) {
+        Course course = findCourse(id);
+        validateCourseOwnership(course);
+        String shareableLink = course.getShareableUrl();
+
+        if (shareableLink == null) {
+            shareableLink = frontendUrl + "/join/" + id;
+            course.setShareableUrl(shareableLink);
+            courseRepository.save(course);
+        }
+
+        return shareableLink;
     }
 
     private Course findCourse(UUID id) {
