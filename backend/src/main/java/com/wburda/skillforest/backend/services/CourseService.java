@@ -4,6 +4,9 @@ import com.wburda.skillforest.backend.dto.CourseDTO;
 import com.wburda.skillforest.backend.dto.CourseRequestDTO;
 import com.wburda.skillforest.backend.entities.Course;
 import com.wburda.skillforest.backend.entities.Teacher;
+import com.wburda.skillforest.backend.exceptions.BadRequestException;
+import com.wburda.skillforest.backend.exceptions.CourseAccessDeniedException;
+import com.wburda.skillforest.backend.exceptions.ResourceNotFoundException;
 import com.wburda.skillforest.backend.mappers.CourseMapper;
 import com.wburda.skillforest.backend.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,13 +74,13 @@ public class CourseService {
     }
 
     Course findCourse(UUID id) {
-        return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        return courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found"));
     }
 
     void validateCourseOwnership(Course course) {
         Teacher currentTeacher = userService.getCurrentlyLoggedTeacher();
         if (!course.getCreatedBy().equals(currentTeacher)) {
-            throw new RuntimeException("No permissions for course");
+            throw new CourseAccessDeniedException("No permissions to access the course");
         }
     }
 

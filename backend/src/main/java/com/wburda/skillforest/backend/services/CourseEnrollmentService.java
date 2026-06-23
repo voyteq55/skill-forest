@@ -4,6 +4,7 @@ import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
 import com.wburda.skillforest.backend.entities.Course;
 import com.wburda.skillforest.backend.entities.CourseEnrollment;
 import com.wburda.skillforest.backend.entities.Student;
+import com.wburda.skillforest.backend.exceptions.CourseAccessDeniedException;
 import com.wburda.skillforest.backend.mappers.CourseMapper;
 import com.wburda.skillforest.backend.repositories.CourseEnrollmentRepository;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class CourseEnrollmentService {
 
     private void validateCourseCanBeEnrolled(Course course) {
         if (!course.isShareable()) {
-            throw new RuntimeException("Course is not public");
+            throw new CourseAccessDeniedException("Course is not public");
         }
     }
 }
