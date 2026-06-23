@@ -20,14 +20,16 @@ public class EnrolledLessonService {
     private final UserService userService;
     private final LessonMapper lessonMapper;
     private final EnrolledLessonRepository enrolledLessonRepository;
+    private final LessonService lessonService;
 
     @Autowired
-    public EnrolledLessonService(CourseService courseService, CourseEnrollmentService courseEnrollmentService, UserService userService, LessonMapper lessonMapper, EnrolledLessonRepository enrolledLessonRepository) {
+    public EnrolledLessonService(CourseService courseService, CourseEnrollmentService courseEnrollmentService, UserService userService, LessonMapper lessonMapper, EnrolledLessonRepository enrolledLessonRepository, LessonService lessonService) {
         this.courseService = courseService;
         this.courseEnrollmentService = courseEnrollmentService;
         this.userService = userService;
         this.lessonMapper = lessonMapper;
         this.enrolledLessonRepository = enrolledLessonRepository;
+        this.lessonService = lessonService;
     }
 
     public List<EnrolledLessonDTO> getAllEnrolledLessons(UUID courseId) {
@@ -58,5 +60,14 @@ public class EnrolledLessonService {
         }
 
         return enrolledLessons;
+    }
+
+    public String getEnrolledLessonContent(UUID courseId, UUID lessonId) {
+        Course course = courseService.findCourse(courseId);
+        courseEnrollmentService.validateCourseEnrollmentForCurrentStudent(course);
+        Lesson lesson = lessonService.findLesson(lessonId);
+        lessonService.validateLessonsWithSameCourseId(lesson.getCourse().getId(), courseId);
+
+        return lesson.getContent();
     }
 }

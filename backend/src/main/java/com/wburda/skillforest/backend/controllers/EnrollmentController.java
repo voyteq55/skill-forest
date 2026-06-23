@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -37,5 +38,10 @@ public class EnrollmentController {
     public ResponseEntity<Void> enrollStudentInCourse(@PathVariable UUID courseId) {
         courseEnrollmentService.enrollStudentInCourse(courseId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{courseId}/lessons/{lessonId}")
+    public ResponseEntity<Map<String, String>> getEnrolledLessonContent(@PathVariable UUID courseId, @PathVariable UUID lessonId) {
+        return ResponseEntity.ok(Map.of("content", enrolledLessonService.getEnrolledLessonContent(courseId, lessonId)));
     }
 }
