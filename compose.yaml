@@ -21,6 +21,11 @@ services:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     ports:
       - "8080:8080"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     depends_on:
       postgres:
         condition: service_started
+
+volumes:
+  postgres_data:
