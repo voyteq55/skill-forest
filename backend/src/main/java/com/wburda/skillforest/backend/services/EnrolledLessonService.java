@@ -63,11 +63,28 @@ public class EnrolledLessonService {
     }
 
     public String getEnrolledLessonContent(UUID courseId, UUID lessonId) {
+        validateEnrolledCourseAndLesson(courseId, lessonId);
+        return lessonService.findLesson(lessonId).getContent();
+    }
+
+    public void updateEnrolledLessonStatus(UUID courseId, UUID lessonId, EnrolledLessonStatus status) {
+        validateEnrolledCourseAndLesson(courseId, lessonId);
+        Lesson lesson = lessonService.findLesson(lessonId);
+
+        Student currentStudent = userService.getCurrentlyLoggedStudent();
+        EnrolledLesson enrolledLesson = lesson.getEnrolledLessons().stream()
+                .filter(enrLesson -> enrLesson.getCourseEnrollment().getStudent().equals(currentStudent))
+                .findFirst().orElseThrow();
+
+        enrolledLesson.setEnrolledLessonStatus(status);
+        enrolledLessonRepository.save(enrolledLesson);
+    }
+
+    private void validateEnrolledCourseAndLesson(UUID courseId, UUID lessonId) {
         Course course = courseService.findCourse(courseId);
         courseEnrollmentService.validateCourseEnrollmentForCurrentStudent(course);
         Lesson lesson = lessonService.findLesson(lessonId);
         lessonService.validateLessonsWithSameCourseId(lesson.getCourse().getId(), courseId);
-
-        return lesson.getContent();
     }
+
 }

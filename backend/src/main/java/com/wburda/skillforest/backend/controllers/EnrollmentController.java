@@ -2,6 +2,7 @@ package com.wburda.skillforest.backend.controllers;
 
 import com.wburda.skillforest.backend.dto.EnrolledLessonDTO;
 import com.wburda.skillforest.backend.dto.StudentCourseEnrollmentDTO;
+import com.wburda.skillforest.backend.entities.enums.EnrolledLessonStatus;
 import com.wburda.skillforest.backend.services.CourseEnrollmentService;
 import com.wburda.skillforest.backend.services.EnrolledLessonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,11 @@ public class EnrollmentController {
     @GetMapping("/{courseId}/lessons/{lessonId}")
     public ResponseEntity<Map<String, String>> getEnrolledLessonContent(@PathVariable UUID courseId, @PathVariable UUID lessonId) {
         return ResponseEntity.ok(Map.of("content", enrolledLessonService.getEnrolledLessonContent(courseId, lessonId)));
+    }
+
+    @PatchMapping("/{courseId}/lessons/{lessonId}/status/{status}")
+    public ResponseEntity<Void> updateEnrolledLessonStatus(@PathVariable UUID courseId, @PathVariable UUID lessonId, @PathVariable EnrolledLessonStatus status) {
+        enrolledLessonService.updateEnrolledLessonStatus(courseId, lessonId, status);
+        return ResponseEntity.noContent().build();
     }
 }
