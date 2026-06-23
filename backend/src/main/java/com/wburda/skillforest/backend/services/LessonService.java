@@ -4,6 +4,8 @@ import com.wburda.skillforest.backend.dto.LessonDTO;
 import com.wburda.skillforest.backend.dto.LessonRequestDTO;
 import com.wburda.skillforest.backend.entities.Course;
 import com.wburda.skillforest.backend.entities.Lesson;
+import com.wburda.skillforest.backend.exceptions.BadRequestException;
+import com.wburda.skillforest.backend.exceptions.ResourceNotFoundException;
 import com.wburda.skillforest.backend.mappers.LessonMapper;
 import com.wburda.skillforest.backend.repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +86,12 @@ public class LessonService {
     }
 
     Lesson findLesson(UUID id) {
-        return lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found"));
+        return lessonRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
     }
 
     void validateLessonsWithSameCourseId(UUID id1, UUID id2){
         if (!id1.equals(id2)) {
-            throw new RuntimeException("Invalid course");
+            throw new BadRequestException("Invalid course");
         }
     }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -30,5 +32,8 @@ public class Lesson {
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EnrolledLesson> enrolledLessons = new LinkedHashSet<>();
 
 }
