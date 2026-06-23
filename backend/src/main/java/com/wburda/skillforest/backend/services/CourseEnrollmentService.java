@@ -52,6 +52,16 @@ public class CourseEnrollmentService {
         }
     }
 
+    void validateCourseEnrollmentForCurrentStudent(Course course) {
+        Student currentStudent = userService.getCurrentlyLoggedStudent();
+        Optional<CourseEnrollment> existingCourseEnrollment = course.getCourseEnrollments().stream()
+                .filter(enrollment -> enrollment.getStudent().equals(currentStudent))
+                .findFirst();
+        if (existingCourseEnrollment.isEmpty()) {
+            throw new CourseAccessDeniedException("No permissions to access course");
+        }
+    }
+
     private void validateCourseCanBeEnrolled(Course course) {
         if (!course.isShareable()) {
             throw new CourseAccessDeniedException("Course is not public");

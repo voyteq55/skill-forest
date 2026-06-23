@@ -1,6 +1,8 @@
 package com.wburda.skillforest.backend.mappers;
 
+import com.wburda.skillforest.backend.dto.EnrolledLessonDTO;
 import com.wburda.skillforest.backend.dto.LessonDTO;
+import com.wburda.skillforest.backend.entities.EnrolledLesson;
 import com.wburda.skillforest.backend.entities.Lesson;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,17 @@ public class LessonMapper {
                 .previousLessonId(previousLessonId)
                 .title(lesson.getTitle())
                 .content(lesson.getContent())
+                .build();
+    }
+
+    public EnrolledLessonDTO toEnrolledLessonDTO(EnrolledLesson enrolledLesson) {
+        UUID previousLessonId = (enrolledLesson.getLesson().getPrevious_lesson() != null) ? enrolledLesson.getLesson().getPrevious_lesson().getId() : null;
+        return EnrolledLessonDTO.builder()
+                .lessonId(enrolledLesson.getLesson().getId())
+                .courseId(enrolledLesson.getCourseEnrollment().getCourse().getId())
+                .previousLessonId(previousLessonId)
+                .title(enrolledLesson.getLesson().getTitle())
+                .enrolledLessonStatus(enrolledLesson.getEnrolledLessonStatus())
                 .build();
     }
 }

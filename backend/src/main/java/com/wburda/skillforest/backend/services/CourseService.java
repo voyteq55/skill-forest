@@ -4,7 +4,6 @@ import com.wburda.skillforest.backend.dto.CourseDTO;
 import com.wburda.skillforest.backend.dto.CourseRequestDTO;
 import com.wburda.skillforest.backend.entities.Course;
 import com.wburda.skillforest.backend.entities.Teacher;
-import com.wburda.skillforest.backend.exceptions.BadRequestException;
 import com.wburda.skillforest.backend.exceptions.CourseAccessDeniedException;
 import com.wburda.skillforest.backend.exceptions.ResourceNotFoundException;
 import com.wburda.skillforest.backend.mappers.CourseMapper;
