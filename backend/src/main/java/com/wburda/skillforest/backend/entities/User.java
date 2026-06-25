@@ -18,4 +18,13 @@ public class User {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "googleSub", unique = true)
+    private String googleSub;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Student student;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Teacher teacher;
 }
