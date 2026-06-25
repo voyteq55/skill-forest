@@ -1,13 +1,12 @@
 package com.wburda.skillforest.backend.controllers;
 
+import com.wburda.skillforest.backend.dto.AssignRoleDTO;
 import com.wburda.skillforest.backend.dto.StudentDTO;
 import com.wburda.skillforest.backend.dto.TeacherDTO;
 import com.wburda.skillforest.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +28,11 @@ public class UserController {
     @GetMapping("/teachers")
     public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
         return ResponseEntity.ok(userService.getAllTeachers());
+    }
+
+    @PostMapping("/me/role")
+    public ResponseEntity<Void> assignRole(@RequestBody AssignRoleDTO roleDTO) {
+        userService.assignUserRole(roleDTO.getRole());
+        return ResponseEntity.noContent().build();
     }
 }
